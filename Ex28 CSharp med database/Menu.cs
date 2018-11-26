@@ -26,23 +26,45 @@ namespace Ex28_CSharp_med_database
             string input = Console.ReadLine();
             using (SqlConnection con = new SqlConnection(conntectionString))
             {
-
-                do
+                try
                 {
-                    switch (input)
-                    {
-                        case "1":
-                            Console.WriteLine("Hey");
-                            break;
-                        case "0":
-                            run = false;
-                            break;
-                        default:
-                            Console.WriteLine("??");
-                            break;
-                    }
+                    con.Open();
 
-                } while (run);
+                    do
+                    {
+                        switch (input)
+                        {
+                            case "1":
+                                SqlCommand cmd1 = new SqlCommand("InsertPet", con);
+                                cmd1.CommandType = CommandType.StoredProcedure;
+                                Console.WriteLine("Insert pet name");
+                                cmd1.Parameters.Add(new SqlParameter("@PetName", Console.ReadLine()));
+                                Console.WriteLine("Insert pet type");
+                                cmd1.Parameters.Add(new SqlParameter("@PetType", Console.ReadLine()));
+                                Console.WriteLine("Insert pet breed");
+                                cmd1.Parameters.Add(new SqlParameter("@PetBreed", Console.ReadLine()));
+                                Console.WriteLine("Insert pet DOB");
+                                cmd1.Parameters.Add(new SqlParameter("@PetDOB", Console.ReadLine()));
+                                Console.WriteLine("Insert pet weight");
+                                cmd1.Parameters.Add(new SqlParameter("@PetWeight", Console.ReadLine()));
+                                Console.WriteLine("Insert owner id");
+                                cmd1.Parameters.Add(new SqlParameter("@OwnerID", Console.ReadLine()));
+                                cmd1.ExecuteNonQuery();
+                                break;
+                            case "0":
+                                run = false;
+                                break;
+                            default:
+                                Console.WriteLine("??");
+                                break;
+                        }
+
+                    } while (run);
+                }
+                catch (SqlException e)
+                {
+                    Console.WriteLine("Hovsa " + e.Message);
+                }
             }
         }
     }
