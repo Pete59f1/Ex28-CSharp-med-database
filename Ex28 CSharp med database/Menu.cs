@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace Ex28_CSharp_med_database
 {
     public class Menu
     {
-        private static string conntectionString =
-        "Server = ealSQL1.eal.local; Database = A_DB26_2018; User Id = A_STUDENT26; Password = A_OPENDB26;";
+        Database_Controller DBC = new Database_Controller();
         private void Show()
         {
             Console.WriteLine("YELLO");
             Console.WriteLine("1. Insert a Pet");
+            Console.WriteLine("2. Show all pets");
+            Console.WriteLine("3. Insert Owner");
+            Console.WriteLine("4. Find owner by last name");
+            Console.WriteLine("5. Find owner by email");
             Console.WriteLine("0. Exit");
         }
 
@@ -23,49 +24,76 @@ namespace Ex28_CSharp_med_database
         {
             Show();
             bool run = true;
-            string input = Console.ReadLine();
-            using (SqlConnection con = new SqlConnection(conntectionString))
-            {
-                try
-                {
-                    con.Open();
+            string input = GetUserInput();
 
-                    do
-                    {
-                        switch (input)
+            //do
+            //{
+                switch (input)
+                {
+                    case "1":
+                        do
                         {
-                            case "1":
-                                SqlCommand cmd1 = new SqlCommand("InsertPet", con);
-                                cmd1.CommandType = CommandType.StoredProcedure;
-                                Console.WriteLine("Insert pet name");
-                                cmd1.Parameters.Add(new SqlParameter("@PetName", Console.ReadLine()));
-                                Console.WriteLine("Insert pet type");
-                                cmd1.Parameters.Add(new SqlParameter("@PetType", Console.ReadLine()));
-                                Console.WriteLine("Insert pet breed");
-                                cmd1.Parameters.Add(new SqlParameter("@PetBreed", Console.ReadLine()));
-                                Console.WriteLine("Insert pet DOB");
-                                cmd1.Parameters.Add(new SqlParameter("@PetDOB", Console.ReadLine()));
-                                Console.WriteLine("Insert pet weight");
-                                cmd1.Parameters.Add(new SqlParameter("@PetWeight", Console.ReadLine()));
-                                Console.WriteLine("Insert owner id");
-                                cmd1.Parameters.Add(new SqlParameter("@OwnerID", Console.ReadLine()));
-                                cmd1.ExecuteNonQuery();
-                                break;
-                            case "0":
-                                run = false;
-                                break;
-                            default:
-                                Console.WriteLine("??");
-                                break;
-                        }
+                            DBC.InsertPet();
+                            Console.Clear();
+                            break;
 
-                    } while (run);
+                        } while (true);
+                        RunMenu();
+                        break;
+
+                    case "2":
+                        do
+                        {
+                            Console.Clear();
+                            DBC.ShowPets();
+                            Console.WriteLine("\n");
+                            break;
+
+                        } while (true);
+                        RunMenu();
+                        break;
+
+                    case "3":
+                        do
+                        {
+                            DBC.InsertOwner();
+                            Console.Clear();
+                            break;
+
+                        } while (true);
+                        RunMenu();
+                        break;
+
+                    case "4":
+                        do
+                        {
+                            Console.WriteLine("Insert last name");
+                            DBC.FindOwnerByLastName(GetUserInput());
+                            break;
+
+                        } while (true);
+                        break;
+
+                    case "5":
+                        Console.WriteLine("Insert email");
+                        Console.WriteLine("Insert name");
+                        DBC.FindOwnerByEmail(GetUserInput(), GetUserInput());
+                        break;
+                    case "0":
+                        run = false;
+                        break;
+                    default:
+                        Console.WriteLine("??");
+                        break;
                 }
-                catch (SqlException e)
-                {
-                    Console.WriteLine("Hovsa " + e.Message);
-                }
-            }
+
+            //} while (run);
+        }
+
+        private string GetUserInput()
+        {
+            string input = Console.ReadLine();
+            return input;
         }
     }
 }
