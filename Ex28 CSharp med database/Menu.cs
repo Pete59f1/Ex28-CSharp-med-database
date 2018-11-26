@@ -23,7 +23,7 @@ namespace Ex28_CSharp_med_database
         public void RunMenu()
         {
             Show();
-            bool run = true;
+            //bool run = true;
             string input = GetUserInput();
 
             //do
@@ -33,8 +33,8 @@ namespace Ex28_CSharp_med_database
                     case "1":
                         do
                         {
-                            DBC.InsertPet();
                             Console.Clear();
+                            DBC.InsertPet();
                             break;
 
                         } while (true);
@@ -56,8 +56,8 @@ namespace Ex28_CSharp_med_database
                     case "3":
                         do
                         {
-                            DBC.InsertOwner();
                             Console.Clear();
+                            DBC.InsertOwner();
                             break;
 
                         } while (true);
@@ -67,11 +67,14 @@ namespace Ex28_CSharp_med_database
                     case "4":
                         do
                         {
+                            Console.Clear();
                             Console.WriteLine("Insert last name");
                             DBC.FindOwnerByLastName(GetUserInput());
+                            Console.WriteLine("\n");
                             break;
 
                         } while (true);
+                        RunMenu();
                         break;
 
                     case "5":
@@ -80,10 +83,17 @@ namespace Ex28_CSharp_med_database
                         DBC.FindOwnerByEmail(GetUserInput(), GetUserInput());
                         break;
                     case "0":
-                        run = false;
+                        //run = false;
                         break;
                     default:
-                        Console.WriteLine("??");
+                        do
+                        {
+                            Console.WriteLine("??");
+                            Console.WriteLine("\n");
+                            break;
+
+                        } while (true);
+                        RunMenu();
                         break;
                 }
 
