@@ -23,11 +23,7 @@ namespace Ex28_CSharp_med_database
         public void RunMenu()
         {
             Show();
-            //bool run = true;
             string input = GetUserInput();
-
-            //do
-            //{
                 switch (input)
                 {
                     case "1":
@@ -83,7 +79,6 @@ namespace Ex28_CSharp_med_database
                         DBC.FindOwnerByEmail(GetUserInput(), GetUserInput());
                         break;
                     case "0":
-                        //run = false;
                         break;
                     default:
                         do
@@ -96,8 +91,6 @@ namespace Ex28_CSharp_med_database
                         RunMenu();
                         break;
                 }
-
-            //} while (run);
         }
 
         private string GetUserInput()
